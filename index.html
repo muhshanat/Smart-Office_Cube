@@ -883,6 +883,43 @@
                         data.status;
 
 
+                    // Enable queue controls ONLY when AVAILABLE.
+                    const callNextButton =
+                        document.querySelector(
+                            'button[onclick="callNext()"]'
+                        );
+
+                    const skipButton =
+                        document.querySelector(
+                            'button[onclick="skipToken()"]'
+                        );
+
+                    const available =
+                        data.status === "AVAILABLE";
+
+                    if (callNextButton) {
+                        callNextButton.disabled =
+                            !available;
+
+                        callNextButton.style.opacity =
+                            available ? "1" : "0.5";
+
+                        callNextButton.style.cursor =
+                            available ? "pointer" : "not-allowed";
+                    }
+
+                    if (skipButton) {
+                        skipButton.disabled =
+                            !available;
+
+                        skipButton.style.opacity =
+                            available ? "1" : "0.5";
+
+                        skipButton.style.cursor =
+                            available ? "pointer" : "not-allowed";
+                    }
+
+
                     // Status color
 
                     if (
@@ -1159,11 +1196,40 @@
 
 
         // ==========================================
+        // CHECK IF QUEUE CONTROLS ARE ALLOWED
+        // ==========================================
+
+        function isOfficeAvailable() {
+
+            const statusElement =
+                document.getElementById("officeStatus");
+
+            if (!statusElement) {
+                return false;
+            }
+
+            return (
+                statusElement.innerText.trim() ===
+                "AVAILABLE"
+            );
+        }
+
+
+        // ==========================================
         // CALL NEXT
         // ==========================================
 
         window.callNext =
             async function () {
+
+                if (!isOfficeAvailable()) {
+
+                    alert(
+                        "CALL NEXT is available only when the office status is AVAILABLE."
+                    );
+
+                    return;
+                }
 
                 try {
 
@@ -1416,6 +1482,15 @@
 
         window.skipToken =
             async function () {
+
+                if (!isOfficeAvailable()) {
+
+                    alert(
+                        "SKIP is available only when the office status is AVAILABLE."
+                    );
+
+                    return;
+                }
 
                 try {
 
