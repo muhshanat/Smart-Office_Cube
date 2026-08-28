@@ -1,0 +1,2635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Office Cube</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172554;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .header {
+
+            background: #0f172a;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        .subtitle {
+
+            margin-top: 6px;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        .live {
+
+            color: #22c55e;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .container {
+
+            max-width: 1500px;
+
+            margin: auto;
+
+            padding: 35px;
+        }
+
+
+        /* ==============================
+           DASHBOARD CARDS
+        ============================== */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            min-height: 200px;
+
+            box-shadow:
+                0 5px 25px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .card-title {
+
+            color: #64748b;
+
+            font-size: 16px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           CURRENT TOKEN
+        ============================== */
+
+        .token {
+
+            font-size: 48px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        button {
+
+            border: none;
+
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-right: 5px;
+
+            margin-top: 5px;
+        }
+
+
+        button:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        .skip-button {
+
+            background: #64748b;
+        }
+
+
+        .skip-button:hover {
+
+            background: #475569;
+        }
+
+
+        .reset-button {
+
+            background: #dc2626;
+        }
+
+
+        .reset-button:hover {
+
+            background: #b91c1c;
+        }
+
+
+        /* ==============================
+           SECTIONS
+        ============================== */
+
+        .section {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 5px 25px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .section h2 {
+
+            font-size: 26px;
+
+            margin-bottom: 22px;
+
+            color: #172554;
+        }
+
+
+        /* ==============================
+           TABLE
+        ============================== */
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th,
+        td {
+
+            padding: 16px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        th {
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 15px;
+        }
+
+
+        td {
+
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           STATUS BADGES
+        ============================== */
+
+        .badge {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .waiting {
+
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+
+        .serving {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .skipped {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* ==============================
+           EMPTY MESSAGE
+        ============================== */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #64748b;
+        }
+
+
+        /* ==============================
+           NOTIFICATION
+        ============================== */
+
+        .notification-box {
+
+            display: flex;
+
+            gap: 15px;
+
+            align-items: center;
+        }
+
+
+        .notification-box input {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media(max-width: 900px) {
+
+            .cards {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .container {
+
+                padding: 20px;
+            }
+
+
+            table {
+
+                font-size: 14px;
+            }
+
+
+            th,
+            td {
+
+                padding: 10px;
+            }
+
+        }
+
+    
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+    <header class="header">
+
+        <div>
+
+            <div class="logo">
+                SMART OFFICE CUBE
+            </div>
+
+            <div class="subtitle">
+                RFID Queue & Appointment Management
+            </div>
+
+        </div>
+
+
+        <div class="live">
+            ● LIVE
+        </div>
+
+    </header>
+
+
+
+    <!-- ==========================================
+         MAIN
+    =========================================== -->
+
+    <main class="container">
+
+
+        <!-- ======================================
+             DASHBOARD CARDS
+        ======================================= -->
+
+        <div class="cards">
+
+
+            <!-- OFFICE STATUS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    OFFICE STATUS
+                </div>
+
+
+                <div
+                    id="officeStatus"
+                    class="status"
+                >
+                    AVAILABLE
+                </div>
+
+            </div>
+
+
+
+            <!-- CURRENT TOKEN -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    NOW SERVING
+                </div>
+
+
+                <div
+                    id="currentToken"
+                    class="token"
+                >
+                    0
+                </div>
+
+
+                <button
+                    onclick="callNext()"
+                >
+                    📢 CALL NEXT
+                </button>
+
+
+                <button
+                    class="skip-button"
+                    onclick="skipToken()"
+                >
+                    ⏭ SKIP
+                </button>
+
+                <button
+                    class="reset-button"
+                    onclick="resetSystem()"
+                >
+                    🔄 RESET
+                </button>
+
+            </div>
+
+
+
+            <!-- WAITING COUNT -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    WAITING VISITORS
+                </div>
+
+
+                <div
+                    id="waitingCount"
+                    class="token"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ======================================
+             CURRENT QUEUE
+        ======================================= -->
+
+        <section class="section">
+
+            <h2>
+                🎫 Current Queue
+            </h2>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Token
+                        </th>
+
+                        <th>
+                            Visitor
+                        </th>
+
+                        <th>
+                            RFID
+                        </th>
+
+                        <th>
+    Status
+</th>
+
+<th>
+    Action
+</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="queueTable"
+                >
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="empty"
+                        >
+                            Loading queue...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+
+        <!-- ======================================
+             APPOINTMENTS
+        ======================================= -->
+
+        <section class="section">
+
+            <h2>
+                📅 Appointments
+            </h2>
+
+
+            <button
+                onclick="addAppointment()"
+            >
+                + ADD APPOINTMENT
+            </button>
+
+
+            <table style="margin-top: 20px;">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Visitor
+                        </th>
+
+                        <th>
+                            RFID UID
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="appointmentTable"
+                >
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+                            No appointments yet.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+
+        <!-- ======================================
+             NOTIFICATIONS
+        ======================================= -->
+
+        <section class="section">
+
+            <h2>
+                📩 Visitor Message
+            </h2>
+
+            <div class="notification-box">
+
+                <input
+                    type="text"
+                    id="notificationMessage"
+                    placeholder="Enter a custom message for visitors..."
+                >
+
+                <button
+                    id="saveMessageBtn"
+                >
+                    SAVE MESSAGE
+                </button>
+
+                <button
+                    id="resetMessageBtn"
+                >
+                    USE DEFAULT
+                </button>
+
+                <small id="notificationStatusText">
+                    No notification for AVAILABLE.
+                </small>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ==========================================
+         FIREBASE
+    =========================================== -->
+
+    <script type="module">
+
+
+        // ==========================================
+        // FIREBASE IMPORTS
+        // ==========================================
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            onValue,
+            get,
+            set,
+            update,
+            remove
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+        // ==========================================
+        // FIREBASE CONFIG
+        // ==========================================
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyBpKFbR2Gg8JwHLcFrIUNzMGkoD6_jPiDo",
+
+            authDomain:
+                "smart-office-cube.firebaseapp.com",
+
+            databaseURL:
+                "https://smart-office-cube-default-rtdb.firebaseio.com/",
+
+            projectId:
+                "smart-office-cube",
+
+            storageBucket:
+                "smart-office-cube.firebasestorage.app",
+
+            messagingSenderId:
+                "55238273465",
+
+            appId:
+                "1:55238273465:web:b506ecd6e7fe8f5cb26e68"
+
+        };
+
+
+
+        // ==========================================
+        // INITIALIZE FIREBASE
+        // ==========================================
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const database =
+            getDatabase(app);
+
+
+        console.log(
+            "================================="
+        );
+
+
+        console.log(
+            "FIREBASE CONNECTED"
+        );
+
+
+        console.log(
+            "================================="
+        );
+
+
+
+        // ==========================================
+        // OFFICE STATUS
+        // ==========================================
+
+        const officeRef =
+            ref(
+                database,
+                "office"
+            );
+
+
+        onValue(
+            officeRef,
+            (snapshot) => {
+
+                const data =
+                    snapshot.val();
+
+
+                console.log(
+                    "Office data:",
+                    data
+                );
+
+
+                if (!data) {
+
+                    return;
+
+                }
+
+
+                // -------------------------------
+                // OFFICE STATUS
+                // -------------------------------
+
+                if (
+                    data.status !== undefined
+                ) {
+
+                    const statusElement =
+                        document.getElementById(
+                            "officeStatus"
+                        );
+
+
+                    statusElement.innerText =
+                        data.status;
+
+
+                    // Status color
+
+                    if (
+                        data.status ===
+                        "AVAILABLE"
+                    ) {
+
+                        statusElement.style.background =
+                            "#dcfce7";
+
+                        statusElement.style.color =
+                            "#15803d";
+
+                    }
+
+                    else {
+
+                        statusElement.style.background =
+                            "#fef3c7";
+
+                        statusElement.style.color =
+                            "#92400e";
+
+                    }
+
+                }
+
+
+                // -------------------------------
+                // CURRENT TOKEN
+                // -------------------------------
+
+                if (
+                    data.currentToken !==
+                    undefined
+                ) {
+
+                    document.getElementById(
+                        "currentToken"
+                    ).innerText =
+                        data.currentToken;
+
+                }
+
+            }
+        );
+
+
+
+        // ==========================================
+        // QUEUE LISTENER
+        // ==========================================
+
+        const queueRef =
+            ref(
+                database,
+                "queue"
+            );
+
+
+        onValue(
+            queueRef,
+            (snapshot) => {
+
+                const queue =
+                    snapshot.val();
+
+
+                const table =
+                    document.getElementById(
+                        "queueTable"
+                    );
+
+
+                table.innerHTML = "";
+
+
+                // -------------------------------
+                // NO QUEUE
+                // -------------------------------
+
+                if (!queue) {
+
+                    table.innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                class="empty"
+                            >
+                                No active visitors waiting.
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+                    document.getElementById(
+                        "waitingCount"
+                    ).innerText = "0";
+
+
+                    return;
+
+                }
+
+
+                let waitingCount = 0;
+
+
+
+                // -------------------------------
+                // SORT TOKENS
+                // -------------------------------
+
+                const tokens =
+                    Object.keys(queue)
+                    .sort(
+                        (a, b) => {
+
+                            const numberA =
+                                parseInt(
+                                    a.substring(1)
+                                );
+
+
+                            const numberB =
+                                parseInt(
+                                    b.substring(1)
+                                );
+
+
+                            return (
+                                numberA -
+                                numberB
+                            );
+
+                        }
+                    );
+
+
+
+                // -------------------------------
+                // DISPLAY QUEUE
+                // -------------------------------
+
+                tokens.forEach(
+                    (token) => {
+
+                        const visitor =
+                            queue[token];
+
+
+                        if (!visitor) {
+
+                            return;
+
+                        }
+
+
+
+                        
+
+
+                        // Show SKIPPED in the queue so admin can see it.
+                        // SKIPPED is kept in Firebase until that visitor
+                        // scans again. It is NOT counted as waiting.
+// Count ONLY WAITING
+
+                        if (
+                            visitor.status ===
+                            "WAITING"
+                        ) {
+
+                            waitingCount++;
+
+                        }
+
+
+
+                        // Create row
+
+                        const row =
+                            document.createElement(
+                                "tr"
+                            );
+
+
+
+                        // Status class
+
+                        let statusClass =
+                            "waiting";
+
+
+                        if (
+                            visitor.status ===
+                            "SERVING"
+                        ) {
+
+                            statusClass =
+                                "serving";
+
+                        }
+
+
+                        if (
+                            visitor.status ===
+                            "SKIPPED"
+                        ) {
+
+                            statusClass =
+                                "skipped";
+
+                        }
+
+
+
+                        row.innerHTML = `
+
+                            <td>
+                                <strong>
+                                    ${token}
+                                </strong>
+                            </td>
+
+                            <td>
+                                ${visitor.name || "-"}
+                            </td>
+
+                            <td>
+                                ${visitor.uid || "-"}
+                            </td>
+
+                            <td>
+
+                                <span
+                                    class="badge ${statusClass}"
+                                >
+
+                                    ${visitor.status || "WAITING"}
+
+                                </span>
+
+                            </td>
+
+                        `;
+
+
+                        table.appendChild(
+                            row
+                        );
+
+                    }
+                );
+
+
+
+                // -------------------------------
+                // UPDATE WAITING COUNT
+                // -------------------------------
+
+                document.getElementById(
+                    "waitingCount"
+                ).innerText =
+                    waitingCount;
+
+            }
+        );
+
+
+
+        // ==========================================
+        // CALL NEXT
+        // ==========================================
+
+        window.callNext =
+            async function () {
+
+                try {
+
+                    console.log(
+                        "CALL NEXT pressed"
+                    );
+
+
+
+                    // --------------------------------
+                    // CURRENT TOKEN
+                    // --------------------------------
+
+                    const currentToken =
+                        document.getElementById(
+                            "currentToken"
+                        ).innerText;
+
+
+
+                    // --------------------------------
+                    // GET QUEUE
+                    // --------------------------------
+
+                    const queueSnapshot =
+                        await get(
+                            ref(
+                                database,
+                                "queue"
+                            )
+                        );
+
+
+                    const queue =
+                        queueSnapshot.val();
+
+
+
+                    if (!queue) {
+
+                        alert(
+                            "No visitors in queue."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    // --------------------------------
+                    // FIND WAITING TOKENS
+                    // --------------------------------
+
+                    const waitingTokens =
+                        Object.keys(queue)
+                        .filter(
+                            (token) => {
+
+                                return (
+                                    queue[token] &&
+                                    queue[token].status ===
+                                    "WAITING"
+                                );
+
+                            }
+                        )
+                        .sort(
+                            (a, b) => {
+
+                                const numA =
+                                    parseInt(
+                                        a.substring(1)
+                                    );
+
+
+                                const numB =
+                                    parseInt(
+                                        b.substring(1)
+                                    );
+
+
+                                return (
+                                    numA -
+                                    numB
+                                );
+
+                            }
+                        );
+
+
+
+                    // --------------------------------
+                    // NO WAITING VISITOR
+                    // --------------------------------
+
+                    if (
+                        waitingTokens.length === 0
+                    ) {
+
+                        alert(
+                            "No waiting visitors."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    // --------------------------------
+                    // REMOVE PREVIOUS SERVING
+                    // --------------------------------
+
+                    if (
+                        currentToken &&
+                        currentToken !== "0" &&
+                        currentToken !== "A000"
+                    ) {
+
+                        if (
+                            queue[currentToken]
+                        ) {
+
+                            // Save previous visitor information
+                            // before removing the completed token.
+
+                            const previousVisitor =
+                                queue[currentToken];
+
+
+                            // Remove completed token from active queue.
+
+                            await remove(
+                                ref(
+                                    database,
+                                    "queue/" +
+                                    currentToken
+                                )
+                            );
+
+
+                            // Clear the visitor's active token.
+                            // Their next RFID scan gets a NEW token.
+
+                            if (
+                                previousVisitor &&
+                                previousVisitor.uid
+                            ) {
+
+                                await remove(
+                                    ref(
+                                        database,
+                                        "visitors/" +
+                                        previousVisitor.uid +
+                                        "/token"
+                                    )
+                                );
+
+                                await set(
+                                    ref(
+                                        database,
+                                        "visitors/" +
+                                        previousVisitor.uid +
+                                        "/status"
+                                    ),
+                                    "COMPLETED"
+                                );
+                            }
+
+
+                            console.log(
+                                "Previous token completed:",
+                                currentToken
+                            );
+
+                        }
+
+                    }
+
+
+
+                    // --------------------------------
+                    // NEXT TOKEN
+                    // --------------------------------
+
+                    const nextToken =
+                        waitingTokens[0];
+
+
+
+                    // --------------------------------
+                    // UPDATE CURRENT TOKEN
+                    // --------------------------------
+
+                    await set(
+                        ref(
+                            database,
+                            "office/currentToken"
+                        ),
+                        nextToken
+                    );
+
+
+
+                    // --------------------------------
+                    // SET SERVING
+                    // --------------------------------
+
+                    await set(
+                        ref(
+                            database,
+                            "queue/" +
+                            nextToken +
+                            "/status"
+                        ),
+                        "SERVING"
+                    );
+
+
+                    console.log(
+                        "NOW SERVING:",
+                        nextToken
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "CALL NEXT ERROR:",
+                        error
+                    );
+
+
+                    alert(
+                        "CALL NEXT failed:\n" +
+                        error.message
+                    );
+
+                }
+
+            };
+
+
+
+        // ==========================================
+        // SKIP CURRENT TOKEN
+        // ==========================================
+
+        window.skipToken =
+            async function () {
+
+                try {
+
+                    console.log(
+                        "SKIP pressed"
+                    );
+
+
+
+                    // --------------------------------
+                    // CURRENT TOKEN
+                    // --------------------------------
+
+                    const currentToken =
+                        document.getElementById(
+                            "currentToken"
+                        ).innerText;
+
+
+
+                    if (
+                        !currentToken ||
+                        currentToken === "0" ||
+                        currentToken === "A000"
+                    ) {
+
+                        alert(
+                            "No current token."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    // --------------------------------
+                    // GET CURRENT VISITOR BEFORE SKIP
+                    // --------------------------------
+
+                    const skipQueueSnapshot =
+                        await get(
+                            ref(
+                                database,
+                                "queue"
+                            )
+                        );
+
+                    const skipQueue =
+                        skipQueueSnapshot.val();
+
+
+                    // --------------------------------
+                    // MARK CURRENT TOKEN AS SKIPPED
+                    // --------------------------------
+                    // Do NOT delete the queue record immediately.
+                    // Keep it as SKIPPED for history.
+
+                    if (
+                        skipQueue &&
+                        skipQueue[currentToken]
+                    ) {
+
+                        await set(
+                            ref(
+                                database,
+                                "queue/" +
+                                currentToken +
+                                "/status"
+                            ),
+                            "SKIPPED"
+                        );
+
+                        // IMPORTANT:
+                        // Keep the visitor's old token so the RFID ESP32
+                        // can recognize that this visitor was skipped.
+                        // The ESP32 removes the old token after the visitor
+                        // scans again and then creates a NEW token.
+
+                        if (
+                            skipQueue[currentToken].uid
+                        ) {
+
+                            await set(
+                                ref(
+                                    database,
+                                    "visitors/" +
+                                    skipQueue[currentToken].uid +
+                                    "/status"
+                                ),
+                                "SKIPPED"
+                            );
+
+                            console.log(
+                                "Skipped visitor token kept for RFID rescan:",
+                                currentToken
+                            );
+                        }
+                    }
+
+
+                    console.log(
+                        "Skipped:",
+                        currentToken
+                    );
+
+
+
+                    // --------------------------------
+                    // GET UPDATED QUEUE
+                    // --------------------------------
+
+                    const queueSnapshot =
+                        await get(
+                            ref(
+                                database,
+                                "queue"
+                            )
+                        );
+
+
+                    const queue =
+                        queueSnapshot.val();
+
+
+
+                    let nextToken =
+                        null;
+
+
+
+                    // --------------------------------
+                    // FIND NEXT WAITING
+                    // --------------------------------
+
+                    if (queue) {
+
+                        const waitingTokens =
+                            Object.keys(queue)
+                            .filter(
+                                (token) => {
+
+                                    return (
+                                        queue[token] &&
+                                        queue[token].status ===
+                                        "WAITING"
+                                    );
+
+                                }
+                            )
+                            .sort(
+                                (a, b) => {
+
+                                    const numA =
+                                        parseInt(
+                                            a.substring(1)
+                                        );
+
+
+                                    const numB =
+                                        parseInt(
+                                            b.substring(1)
+                                        );
+
+
+                                    return (
+                                        numA -
+                                        numB
+                                    );
+
+                                }
+                            );
+
+
+
+                        if (
+                            waitingTokens.length > 0
+                        ) {
+
+                            nextToken =
+                                waitingTokens[0];
+
+                        }
+
+                    }
+
+
+
+                    // --------------------------------
+                    // NEXT TOKEN EXISTS
+                    // --------------------------------
+
+                    if (nextToken) {
+
+                        await set(
+                            ref(
+                                database,
+                                "office/currentToken"
+                            ),
+                            nextToken
+                        );
+
+
+                        await set(
+                            ref(
+                                database,
+                                "queue/" +
+                                nextToken +
+                                "/status"
+                            ),
+                            "SERVING"
+                        );
+
+
+                        console.log(
+                            "NOW SERVING:",
+                            nextToken
+                        );
+
+                    }
+
+
+                    // --------------------------------
+                    // NO MORE VISITORS
+                    // --------------------------------
+
+                    else {
+
+                        await set(
+                            ref(
+                                database,
+                                "office/currentToken"
+                            ),
+                            "NONE"
+                        );
+
+
+                        console.log(
+                            "Queue finished."
+                        );
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "SKIP ERROR:",
+                        error
+                    );
+
+
+                    alert(
+                        "SKIP failed:\n" +
+                        error.message
+                    );
+
+                }
+
+            };
+
+
+
+        // ==========================================
+        // RESET SYSTEM
+        // ==========================================
+
+        window.resetSystem =
+            async function () {
+
+                const confirmed =
+                    confirm(
+                        "RESET SYSTEM?\n\n" +
+                        "This clears the active queue, " +
+                        "resets the token counter to A000, " +
+                        "resets NOW SERVING, and clears " +
+                        "active tokens from visitors.\n\n" +
+                        "Registered visitor names and RFID " +
+                        "records are kept."
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                try {
+
+                    // 1. Clear active queue
+                    await remove(
+                        ref(
+                            database,
+                            "queue"
+                        )
+                    );
+
+
+                    // 2. Reset token counter
+                    await set(
+                        ref(
+                            database,
+                            "counter/lastToken"
+                        ),
+                        0
+                    );
+
+
+                    // 3. Reset current serving
+                    await set(
+                        ref(
+                            database,
+                            "office/currentToken"
+                        ),
+                        "NONE"
+                    );
+
+
+                    // 4. Clear active tokens/statuses
+                    // but keep registered UID + name.
+                    const visitorsSnapshot =
+                        await get(
+                            ref(
+                                database,
+                                "visitors"
+                            )
+                        );
+
+                    const visitors =
+                        visitorsSnapshot.val();
+
+                    if (visitors) {
+
+                        const ids =
+                            Object.keys(visitors);
+
+                        for (
+                            const uid of ids
+                        ) {
+
+                            await remove(
+                                ref(
+                                    database,
+                                    "visitors/" +
+                                    uid +
+                                    "/token"
+                                )
+                            );
+
+                            await remove(
+                                ref(
+                                    database,
+                                    "visitors/" +
+                                    uid +
+                                    "/status"
+                                )
+                            );
+                        }
+                    }
+
+
+                    alert(
+                        "SYSTEM RESET SUCCESSFUL!\n\n" +
+                        "Next new visitor will receive A001."
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "RESET ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "Reset failed:\n" +
+                        error.message
+                    );
+                }
+            };
+
+
+
+        // ==========================================
+        // ADD APPOINTMENT
+        // ==========================================
+        //
+        // Firebase structure used by the RFID ESP32:
+        //
+        // appointments
+        //   UID
+        //     visitor: "Rafiya"
+        //     date: "2026-08-28"
+        //     time: "10:30"
+        //     status: "CONFIRMED"
+        //
+        // The RFID ESP32 checks:
+        // /appointments/{UID}/status
+        //
+        // Therefore the status MUST be CONFIRMED
+        // for an appointment to be accepted.
+        //
+
+        window.addAppointment =
+            async function () {
+
+                try {
+
+                    // -------------------------------
+                    // VISITOR NAME
+                    // -------------------------------
+
+                    const visitor =
+                        prompt(
+                            "Enter visitor name:"
+                        );
+
+                    if (
+                        visitor === null ||
+                        visitor.trim() === ""
+                    ) {
+                        return;
+                    }
+
+
+                    // -------------------------------
+                    // RFID UID
+                    // -------------------------------
+
+                    let uid =
+                        prompt(
+                            "Enter RFID UID:"
+                        );
+
+                    if (
+                        uid === null ||
+                        uid.trim() === ""
+                    ) {
+                        return;
+                    }
+
+                    uid =
+                        uid.trim().toUpperCase();
+
+
+                    // -------------------------------
+                    // DATE
+                    // -------------------------------
+
+                    const date =
+                        prompt(
+                            "Enter appointment date (YYYY-MM-DD):"
+                        );
+
+                    if (
+                        date === null ||
+                        date.trim() === ""
+                    ) {
+                        return;
+                    }
+
+
+                    // -------------------------------
+                    // TIME
+                    // -------------------------------
+
+                    const time =
+                        prompt(
+                            "Enter appointment time (HH:MM):"
+                        );
+
+                    if (
+                        time === null ||
+                        time.trim() === ""
+                    ) {
+                        return;
+                    }
+
+
+                    // -------------------------------
+                    // BASIC VALIDATION
+                    // -------------------------------
+
+                    const datePattern =
+                        /^\d{4}-\d{2}-\d{2}$/;
+
+                    const timePattern =
+                        /^\d{2}:\d{2}$/;
+
+
+                    if (
+                        !datePattern.test(
+                            date.trim()
+                        )
+                    ) {
+
+                        alert(
+                            "Invalid date format.\n\n" +
+                            "Use: YYYY-MM-DD"
+                        );
+
+                        return;
+                    }
+
+
+                    if (
+                        !timePattern.test(
+                            time.trim()
+                        )
+                    ) {
+
+                        alert(
+                            "Invalid time format.\n\n" +
+                            "Use: HH:MM"
+                        );
+
+                        return;
+                    }
+
+
+                    const appointmentRef =
+                        ref(
+                            database,
+                            "appointments/" +
+                            uid
+                        );
+
+
+                    // -------------------------------
+                    // CHECK EXISTING APPOINTMENT
+                    // -------------------------------
+
+                    const existing =
+                        await get(
+                            appointmentRef
+                        );
+
+
+                    if (
+                        existing.exists()
+                    ) {
+
+                        const replace =
+                            confirm(
+                                "An appointment already exists for this RFID UID.\n\n" +
+                                "Do you want to replace it?"
+                            );
+
+                        if (!replace) {
+                            return;
+                        }
+                    }
+
+
+                    // -------------------------------
+                    // SAVE APPOINTMENT
+                    // -------------------------------
+
+                    await set(
+                        appointmentRef,
+                        {
+                            visitor:
+                                visitor.trim(),
+
+                            uid:
+                                uid,
+
+                            date:
+                                date.trim(),
+
+                            time:
+                                time.trim(),
+
+                            status:
+                                "CONFIRMED"
+                        }
+                    );
+
+
+                    alert(
+                        "Appointment saved successfully."
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "APPOINTMENT SAVE ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "Could not save appointment.\n\n" +
+                        error.message
+                    );
+                }
+            };
+
+
+        // ==========================================
+        // LOAD APPOINTMENTS
+        // ==========================================
+
+        onValue(
+            ref(
+                database,
+                "appointments"
+            ),
+            (snapshot) => {
+
+                const table =
+                    document.getElementById(
+                        "appointmentTable"
+                    );
+
+
+                if (!table) {
+                    return;
+                }
+
+
+                const data =
+                    snapshot.val();
+
+
+                table.innerHTML = "";
+
+
+                if (!data) {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+                    row.innerHTML = `
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+                            No appointments yet.
+                        </td>
+                    `;
+
+                    table.appendChild(row);
+
+                    return;
+                }
+
+
+                const appointments =
+                    Object.entries(data);
+
+
+                // Newest appointments first
+                appointments.reverse();
+
+
+                appointments.forEach(
+                    ([uid, appointment]) => {
+
+                        if (!appointment) {
+                            return;
+                        }
+
+
+                        const row =
+                            document.createElement(
+                                "tr"
+                            );
+
+
+                        const visitor =
+                            appointment.visitor ||
+                            "-";
+
+                        const appointmentUID =
+                            appointment.uid ||
+                            uid ||
+                            "-";
+
+                        const date =
+                            appointment.date ||
+                            "-";
+
+                        const time =
+                            appointment.time ||
+                            "-";
+
+                        const status =
+                            appointment.status ||
+                            "CONFIRMED";
+
+
+                        row.innerHTML = `
+                            <td>
+                                ${escapeHtml(visitor)}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(appointmentUID)}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(date)}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(time)}
+                            </td>
+
+                            <td>
+                                <span class="status-badge">
+                                    ${escapeHtml(status)}
+                                </span>
+                            </td>
+                            <td>
+    <button
+        type="button"
+        onclick="deleteAppointment('${escapeHtml(appointmentUID)}')"
+        style="background:#dc2626; padding:8px 12px; margin:0;"
+    >
+        DELETE
+    </button>
+</td>
+                        `;
+
+
+                        table.appendChild(row);
+                    }
+                );
+            }
+        );
+// ==========================================
+// DELETE APPOINTMENT
+// ==========================================
+
+window.deleteAppointment =
+    async function (uid) {
+
+        if (!uid) {
+            return;
+        }
+
+        const confirmed =
+            confirm(
+                "Delete this appointment?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+
+            await remove(
+                ref(
+                    database,
+                    "appointments/" + uid
+                )
+            );
+
+            alert(
+                "Appointment deleted successfully."
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "DELETE APPOINTMENT ERROR:",
+                error
+            );
+
+            alert(
+                "Could not delete appointment.\n\n" +
+                error.message
+            );
+        }
+    };
+
+        // ==========================================
+        // SAFE HTML TEXT
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+
+
+        // ==========================================
+        // SEND NOTIFICATION
+        // ==========================================
+
+        window.sendNotification =
+            function () {
+
+                const message =
+                    document.getElementById(
+                        "notificationMessage"
+                    ).value;
+
+
+                if (!message.trim()) {
+
+                    alert(
+                        "Please enter a message."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Notification system will be connected next.\n\n" +
+                    "Message:\n" +
+                    message
+                );
+
+            };
+
+
+    
+
+
+// ==========================================
+// VISITOR MESSAGE SYSTEM
+// ==========================================
+//
+// IMPORTANT:
+// 1. office/status is controlled by the MPU/ESP32.
+// 2. office/notification is ONLY the custom visitor message.
+// 3. Saving a custom message MUST NOT change office/status.
+// 4. Use Default removes ONLY the custom message.
+// 5. AVAILABLE has no automatic message.
+// 6. A custom message is shown only when the office is
+//    NOT AVAILABLE. This prevents a saved old message
+//    from appearing when the office becomes AVAILABLE.
+//
+
+const DEFAULT_VISITOR_MESSAGES = {
+
+    AVAILABLE: "",
+
+    BREAK:
+        "Office is on break. Come after break.",
+
+    MEETING:
+        "Office is in a meeting. Come later.",
+
+    BUSY:
+        "Office is busy. Please come later.",
+
+    CLOSED:
+        "Office is closed. Please come later.",
+
+    "APPT ONLY":
+        "Appointment required.",
+
+    APPOINTMENT:
+        "Appointment required."
+};
+
+
+let currentOfficeStatus = "AVAILABLE";
+
+let customVisitorMessage = "";
+
+
+// ==========================================
+// DEFAULT MESSAGE
+// ==========================================
+
+function getDefaultVisitorMessage(status) {
+
+    return (
+        DEFAULT_VISITOR_MESSAGES[status] ||
+        ""
+    );
+}
+
+
+// ==========================================
+// ACTIVE MESSAGE
+// ==========================================
+
+function getActiveVisitorMessage() {
+
+    // AVAILABLE = no visitor notification.
+    if (
+        currentOfficeStatus === "AVAILABLE"
+    ) {
+        return "";
+    }
+
+    // Custom message has priority for
+    // non-AVAILABLE office states.
+    if (
+        customVisitorMessage.trim() !== ""
+    ) {
+        return customVisitorMessage.trim();
+    }
+
+    return getDefaultVisitorMessage(
+        currentOfficeStatus
+    );
+}
+
+
+// ==========================================
+// UPDATE MESSAGE BOX
+// ==========================================
+
+function renderVisitorMessage() {
+
+    const input =
+        document.getElementById(
+            "notificationMessage"
+        );
+
+    const info =
+        document.getElementById(
+            "notificationStatusText"
+        );
+
+    if (!input) {
+        return;
+    }
+
+    const activeMessage =
+        getActiveVisitorMessage();
+
+    input.value = activeMessage;
+
+
+    if (
+        currentOfficeStatus ===
+        "AVAILABLE"
+    ) {
+
+        if (info) {
+            info.textContent =
+                "No notification for AVAILABLE.";
+        }
+
+        return;
+    }
+
+
+    if (
+        customVisitorMessage.trim() !== ""
+    ) {
+
+        if (info) {
+            info.textContent =
+                "Custom notification is active.";
+        }
+
+    } else {
+
+        if (info) {
+            info.textContent =
+                "Default notification for " +
+                currentOfficeStatus +
+                " is active.";
+        }
+    }
+}
+
+
+// ==========================================
+// SAVE CUSTOM MESSAGE
+// ==========================================
+
+async function saveNotification() {
+
+    const input =
+        document.getElementById(
+            "notificationMessage"
+        );
+
+    if (!input) {
+        return;
+    }
+
+
+    const message =
+        input.value.trim();
+
+
+    if (!message) {
+
+        alert(
+            "Please enter a custom message."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        // ONLY save the notification.
+        // Do NOT touch office/status.
+        await set(
+            ref(
+                database,
+                "office/notification"
+            ),
+            message
+        );
+
+
+        customVisitorMessage =
+            message;
+
+
+        renderVisitorMessage();
+
+
+        console.log(
+            "Custom visitor message saved:",
+            message
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "SAVE MESSAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Could not save the custom message.\n\n" +
+            error.message
+        );
+    }
+}
+
+
+// ==========================================
+// USE DEFAULT
+// ==========================================
+
+async function resetNotification() {
+
+    try {
+
+        // Remove ONLY custom notification.
+        // The MPU status remains untouched.
+        await remove(
+            ref(
+                database,
+                "office/notification"
+            )
+        );
+
+
+        customVisitorMessage = "";
+
+
+        renderVisitorMessage();
+
+
+        console.log(
+            "Custom visitor message removed. Default messages restored."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "USE DEFAULT ERROR:",
+            error
+        );
+
+        alert(
+            "Could not remove the custom message.\n\n" +
+            error.message
+        );
+    }
+}
+
+
+// ==========================================
+// BUTTONS
+// ==========================================
+
+const saveMessageButton =
+    document.getElementById(
+        "saveMessageBtn"
+    );
+
+if (saveMessageButton) {
+
+    saveMessageButton.addEventListener(
+        "click",
+        saveNotification
+    );
+}
+
+
+const resetMessageButton =
+    document.getElementById(
+        "resetMessageBtn"
+    );
+
+if (resetMessageButton) {
+
+    resetMessageButton.addEventListener(
+        "click",
+        resetNotification
+    );
+}
+
+
+// ==========================================
+// LISTEN TO OFFICE STATUS
+// ==========================================
+
+onValue(
+    ref(
+        database,
+        "office/status"
+    ),
+    (snapshot) => {
+
+        currentOfficeStatus =
+            snapshot.val() ||
+            "AVAILABLE";
+
+
+        console.log(
+            "OFFICE STATUS:",
+            currentOfficeStatus
+        );
+
+
+        renderVisitorMessage();
+    }
+);
+
+
+// ==========================================
+// LISTEN TO CUSTOM MESSAGE
+// ==========================================
+
+onValue(
+    ref(
+        database,
+        "office/notification"
+    ),
+    (snapshot) => {
+
+        const value =
+            snapshot.val();
+
+
+        customVisitorMessage =
+            value ?
+            String(value) :
+            "";
+
+
+        console.log(
+            "CUSTOM MESSAGE:",
+            customVisitorMessage
+        );
+
+
+        renderVisitorMessage();
+    }
+);
+
+
+// ==========================================
+// MAKE AVAILABLE TO OTHER CODE
+// ==========================================
+
+window.getActiveVisitorMessage =
+    getActiveVisitorMessage;
+
+
+</script>
+
+
+</body>
+
+</html>
